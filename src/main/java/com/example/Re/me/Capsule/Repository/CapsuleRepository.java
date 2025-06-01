@@ -9,6 +9,6 @@ import java.util.List;
 
 @Repository
 public interface CapsuleRepository extends JpaRepository<Capsule, Long> {
-    List<Capsule> findByUser(User user);
+
 }
 

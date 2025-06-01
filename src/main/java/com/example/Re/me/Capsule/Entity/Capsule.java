@@ -48,7 +48,4 @@ public class Capsule {
     @Column(name = "theme_id")
     private Long themeId;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id")
-    private User user;
 }

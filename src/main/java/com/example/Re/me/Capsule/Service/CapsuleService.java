@@ -4,7 +4,6 @@ import com.example.Re.me.Capsule.DTO.CapsuleRequestDto;
 import com.example.Re.me.Capsule.DTO.CapsuleResponseDto;
 import com.example.Re.me.Capsule.Entity.Capsule;
 import com.example.Re.me.Capsule.Repository.CapsuleRepository;
-import com.example.Re.me.User.Entity.User;
 import com.example.Re.me.User.Repository.UserRepository;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
@@ -23,16 +22,14 @@ import java.util.stream.Collectors;
 public class CapsuleService {
 
     private final CapsuleRepository capsuleRepository;
-    private final UserRepository userRepository;
     private final String UPLOAD_DIR = "uploads/";
 
-    public CapsuleService(CapsuleRepository capsuleRepository, UserRepository userRepository) {
+    public CapsuleService(CapsuleRepository capsuleRepository) {
         this.capsuleRepository = capsuleRepository;
-        this.userRepository = userRepository;
     }
 
     @Transactional
-    public CapsuleResponseDto saveCapsule(CapsuleRequestDto capsuleDto, User user) {
+    public CapsuleResponseDto saveCapsule(CapsuleRequestDto capsuleDto) {
         Capsule capsule = new Capsule();
         capsule.setTitle(capsuleDto.getTitle());
         capsule.setContent(capsuleDto.getContent());
@@ -41,7 +38,6 @@ public class CapsuleService {
         capsule.setOpenDate(capsuleDto.getOpenDate());
         capsule.setIsOpened(false);
         capsule.setThemeId(capsuleDto.getThemeId());
-        capsule.setUser(user);
         // 파일 저장 처리
         if (capsuleDto.getMedia() != null && !capsuleDto.getMedia().isEmpty()) {
             try {
@@ -100,14 +96,13 @@ public class CapsuleService {
         dto.setIsOpened(capsule.getIsOpened());
         return dto;
     }
-    @Transactional
-    public List<CapsuleResponseDto> getMyCapsules(String email) {
-        User user = userRepository.findByEmail(email)
-                .orElseThrow(() -> new RuntimeException("User not found"));
-        List<Capsule> capsules = capsuleRepository.findByUser(user);
+    @Transactional(readOnly = true) // 읽기 전용 트랜잭션으로 설정하여 성능 최적화
+    public List<CapsuleResponseDto> getAllCapsules() {
+        List<Capsule> capsules = capsuleRepository.findAll();
+        // 모든 Capsule 엔티티를 CapsuleResponseDto로 변환하여 반환
         return capsules.stream()
-                .map(this::convertToDto)
-                .collect(Collectors.toList());
+                .map(this::convertToDto) // 각 Capsule을 DTO로 변환
+                .collect(Collectors.toList()); // DTO 리스트로 수집
     }
 
 }
