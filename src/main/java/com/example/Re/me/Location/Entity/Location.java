@@ -9,16 +9,17 @@ import lombok.Setter;
 @Setter
 @Table(name = "location")
 public class Location {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(name = "latitude")
+    private Double latitude;// 위도
+    @Column(name = "longitude")
+    private Double longitude; // 경도
+
     @Column(name = "name")
     private String name;
 
-    @Column(name = "latitude")
-    private Double latitude;
-
-    @Column(name = "longitude")
-    private Double longitude;
 }

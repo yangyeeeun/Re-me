@@ -12,7 +12,10 @@ public class CapsuleRequestDto {
     private Long themeId;
     private String title;
     private String content;
-    private String location;
+    private String locationName;
     private LocalDateTime openDate;
     private MultipartFile media;
+
+    private Double latitude;
+    private Double longitude;
 }

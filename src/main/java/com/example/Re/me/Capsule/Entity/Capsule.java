@@ -1,21 +1,20 @@
 package com.example.Re.me.Capsule.Entity;
 
-import com.example.Re.me.MediaFile.Entity.Media;
-import com.example.Re.me.Theme.Entity.Theme;
-import com.example.Re.me.User.Entity.User;
+import com.example.Re.me.Location.Entity.Location;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
 
 @Entity
 @Getter
 @Setter
+@EntityListeners(AuditingEntityListener.class)
 @Table(name = "capsule")
 public class Capsule {
     @Id
@@ -33,11 +32,10 @@ public class Capsule {
     private LocalDateTime createdAt;
 
     @Column(name = "open_date")
-    @LastModifiedDate
     private LocalDateTime openDate;
 
-    @Column(name = "location")
-    private String location;
+    @Column(name = "location_name")
+    private String locationName;
 
     @Column(name = "is_opened")
     private Boolean isOpened;
@@ -48,4 +46,12 @@ public class Capsule {
     @Column(name = "theme_id")
     private Long themeId;
 
+    @Column(name = "modified_at")
+    @LastModifiedDate
+    private LocalDateTime lastModifiedDate;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JsonIgnore
+    @JoinColumn(name = "location_id")
+    private Location location;
 }
