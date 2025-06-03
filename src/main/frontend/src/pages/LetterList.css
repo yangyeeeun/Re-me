@@ -1,0 +1,140 @@
+/* LetterList.css */
+
+/* .app-container와 .wrap은 App.css에서 관리 */
+
+.letter-list-content {
+    width: 100%;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* 전체 콘텐츠를 중앙에 정렬 */
+    padding: 20px;
+    margin-top: 50px; /* 배너와의 간격 조절 */
+    min-height: calc(100vh - 100px);
+}
+
+/* 캡슐 아이템의 너비를 측정하기 위한 숨겨진 요소 */
+.capsule-item-measure-hidden {
+    position: absolute; /* 레이아웃에 영향을 주지 않도록 */
+    visibility: hidden; /* 보이지 않게 */
+    width: 200px; /* 실제 캡슐 아이템의 기본 너비와 동일하게 설정 */
+    height: 200px;
+    pointer-events: none; /* 클릭 이벤트 방지 */
+}
+
+
+/* 전체 캡슐 줄들을 감싸는 래퍼 */
+.capsule-grid-wrapper {
+    position: relative;
+    width: 100%; /* 부모 .letter-list-content의 너비를 따름 */
+    max-width: 1400px; /* 최대 너비 설정 (너무 넓어지는 것을 방지) */
+    min-height: 300px;
+    display: flex; /* Flexbox로 줄(row)들을 수직으로 배치 */
+    flex-direction: column;
+    gap: 120px; /* 각 줄 간의 수직 간격 */
+    align-items: center; /* 내부 줄 컨테이너들을 중d앙에 정렬 */
+}
+
+/* 각 줄의 캡슐들을 담는 컨테이너 */
+.capsule-row-container {
+    display: grid;
+    /* grid-template-columns는 JS에서 동적으로 설정됨 */
+    /* gap: 40px; /* 각 캡슐 아이템 간의 수평 간격 */
+    /* 행 간격은 .capsule-grid-wrapper의 gap이 담당 */
+
+    /* 홀수 줄 (왼쪽에서 오른쪽으로 흐름) */
+    /* justify-content: flex-start;  // 기본 그리드 배치 방식이므로 필요 없음 */
+    width: 100%; /* 부모 너비를 가득 채우도록 */
+    box-sizing: border-box; /* 패딩, 보더 포함 너비 계산 */
+    padding: 0; /* 내부 패딩 제거 */
+    margin: 0; /* 내부 마진 제거 */
+    align-items: start;
+}
+
+/* 홀수 번째 줄 (0, 2, 4...) - 왼쪽 정렬 */
+.capsule-row-container.odd-row {
+    justify-content: flex-start; /* 그리드 아이템들을 왼쪽에서 시작하여 정렬 */
+    /* margin-left: 0; */
+    /* margin-right: auto; */
+}
+
+/* 짝수 번째 줄 (1, 3, 5...) - 오른쪽 정렬 */
+.capsule-row-container.even-row {
+    /* margin-left: auto; */
+    /* margin-right: 0; */
+}
+
+
+.capsule-item {
+    position: absolute; /* ✨ JS에서 계산된 left/top 값을 적용 ✨ */
+    width: 200px; /* 고정 너비 - JS의 ITEM_WIDTH와 일치 */
+    height: 200px; /* 고정 높이 - JS의 ITEM_HEIGHT와 일치 */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    box-sizing: content-box; /* 패딩/보더가 너비에 포함되지 않도록 */
+
+    /* transition은 JS에서 인라인 스타일로 부여됩니다. */
+    /* margin은 JS에서 left/top으로 대체되므로 여기서 제거 */
+}
+
+
+/* 캡슐 비주얼 (우주선 이미지와 오버레이 요소들을 포함하는 컨테이너) */
+.capsule-visual {
+    position: relative;
+    width: 250px;
+    height: 250px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.capsule-base-image { /* 우주선 이미지 자체 */
+    width: 100%;
+    height: 100%;
+    object-fit: contain; /* 이미지 비율 유지하며 컨테이너에 맞춤 */
+}
+
+.open-date-overlay { /* 우주선 위 날짜 */
+    position: absolute;
+    top: 0%; /* 우주선 상단에 위치 조절 (이미지 보면서 미세 조정 필요) */
+    left: 50%;
+    transform: translate(-50%, -50%); /* 중앙 정렬 */
+    color: #fff;
+    font-size: 1.1em;
+    font-weight: bold;
+    text-shadow: 1px 1px 3px rgba(0,0,0,0.7);
+    z-index: 2; /* 이미지 위에 표시 */
+    white-space: nowrap; /* 날짜가 줄바꿈되지 않도록 */
+}
+
+.lock-icon-overlay { /* 우주선 위 자물쇠 아이콘 */
+    position: absolute;
+    top: 10%; /* 우주선 이미지 우측 상단에 위치 조절 */
+    right: 10%;
+    width: 40px; /* 자물쇠 아이콘 크기 */
+    height: 40px;
+    z-index: 3; /* 날짜 위에 표시 */
+}
+
+.capsule-location-info {
+    margin-top: 0px; /* 이미지와 위치 텍스트 간 간격 */
+}
+
+.location-text {
+    bottom: 1%;
+    left: 44%;
+    color: white;
+    font-size: 1em;
+    font-weight: normal;
+    text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
+}
+
+/* 기타 메시지 스타일 (변동 없음) */
+.no-capsules-message, .error-message, .loading-message {
+    color: white;
+    font-size: 1.5em;
+    text-align: center;
+    margin-top: 50px;
+}

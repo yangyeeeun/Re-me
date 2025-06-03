@@ -1,0 +1,156 @@
+/* CSS */
+body {
+  margin: 0;
+  padding: 0;
+  font-family: 'Arial', sans-serif;
+  height: 100vh;
+  overflow: hidden;
+}
+
+.background {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  width: 250%;
+  height: 250%;
+  background-image: url('../public/images/background/space.png');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  transform: translate(-50%, -50%) rotate(0deg);
+  animation: rotateBackground 120s linear infinite;
+  z-index: -1;
+}
+
+@keyframes rotateBackground {
+  from {
+    transform: translate(-50%, -50%) rotate(0deg);
+  }
+  to {
+    transform: translate(-50%, -50%) rotate(360deg);
+  }
+}
+
+.app-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  height: 100vh;
+}
+/* 내부 콘텐츠만 스크롤 가능하도록 수정 */
+.wrap {
+  width: 100%;
+  height: calc(100vh - 80px); /* 배너 제외 높이 설정 */
+  overflow-y: auto; /* 내부만 스크롤 */
+  margin-top: 100px; /* 배너 공간 확보 */
+  padding: 20px;
+  z-index: 100;
+}
+
+.theme-selector {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 95%;
+  height: 600px; /* 크기 고정 */
+  margin-left: 80px;
+  margin-top: 100px;
+}
+
+.left-panel {
+  flex: 1;
+  text-align: center;
+}
+
+.left-panel img {
+  width: 650px;
+  height: 650px;
+  border-radius: 10px;
+  transition: opacity 0.5s ease-in-out;
+}
+
+.right-panel {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  height: 100%;
+  overflow: hidden; /* 전체 스크롤 방지 */
+}
+
+.theme-list {
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto; /* 내부만 스크롤 */
+  height: 850px; /* 고정 높이 */
+  padding: 10px;
+}
+
+.theme-item {
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 250px;
+}
+
+.theme-item img {
+  width: 230px;
+  height: 230px;
+  border-radius: 10px;
+  transition: transform 0.2s;
+}
+
+.theme-item img:hover {
+  transform: scale(1.1);
+}
+.theme-color{
+  color: white;
+  font-size: 30px;
+  font-family: 'SDSamliphopangche_Outline';
+}
+.theme-name{
+  color: white;
+  font-family: 'SDSamliphopangche_Outline';
+}
+/* 스크롤바 전체 영역 */
+.theme-list::-webkit-scrollbar {
+  width: 8px; /* 세로 스크롤바 너비 */
+}
+
+/* 스크롤바 트랙 (배경) */
+.theme-list::-webkit-scrollbar-track {
+  background: #414141; /* 어두운 배경 */
+  border-radius: 10px;
+}
+
+/* 스크롤바 핸들 (움직이는 부분) */
+.theme-list::-webkit-scrollbar-thumb {
+  background: rgba(128, 128, 128, 0.8); /* 밝은 노란색 */
+  border-radius: 10px;
+}
+
+/* 스크롤바 핸들 hover 시 변경 */
+.theme-list::-webkit-scrollbar-thumb:hover {
+  background: #c0c0c0; /* 짙은 오렌지 */
+}
+.button-container {
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+}
+
+.write-button {
+  background-color: rgba(17, 17, 17, 0.25);
+  color: #ffffff;
+  padding: 20px 30px;
+  font-size: 25px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-family: 'SDSamliphopangche_Outline';
+}
+
+.write-button:hover {
+  background-color: rgba(185, 185, 185, 0.8);
+}

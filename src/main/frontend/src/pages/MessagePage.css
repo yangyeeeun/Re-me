@@ -1,0 +1,87 @@
+/* src/pages/MessagePage.css */
+
+.message-page-container {
+    width: 90%;
+    max-width: 1000px;
+    margin: 50px auto;
+    padding: 30px;
+    background-color: #ffffff29;
+    border-radius: 15px;
+    box-shadow: 0 5px 20px #ffffffa8;
+    color: white;
+    text-align: center;
+}
+
+.message-page-container h2 {
+    color: #ffd700;
+    font-size: 2.5em;
+    margin-bottom: 30px;
+    text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.4);
+}
+
+.no-messages-message {
+    font-size: 1.2em;
+    color: #aaa;
+    margin-top: 50px;
+}
+
+.opened-capsules-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); /* 반응형 그리드 */
+    gap: 30px;
+    justify-content: center;
+    padding: 20px 0;
+}
+
+.opened-capsule-item {
+    background-color: #3a3a3a;
+    border-radius: 12px;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    cursor: pointer;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.3);
+}
+
+.opened-capsule-item:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.5);
+}
+
+.opened-capsule-image {
+    width: 120px;
+    height: 120px;
+    object-fit: contain;
+    margin-bottom: -50px;
+}
+
+.opened-capsule-info h3 {
+    font-size: 1.4em;
+    color: #aaddff;
+    margin-bottom: 8px;
+    word-break: break-word;
+}
+
+.opened-capsule-info p {
+    font-size: 0.9em;
+    color: #bbb;
+    margin-bottom: 5px;
+}
+
+.opened-capsule-info .location-text {
+    font-style: italic;
+    color: #999;
+}
+
+/* 로딩/에러 메시지 (App.css에 이미 있다면 필요 없음) */
+.loading-message, .error-message {
+    color: white;
+    font-size: 1.5em;
+    text-align: center;
+    margin-top: 50px;
+}
+h2{
+    font-family: "SDSamliphopangche_Outline";
+}

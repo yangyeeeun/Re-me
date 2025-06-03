@@ -1,0 +1,128 @@
+.write-container {
+    display: flex;
+    justify-content: space-between; /* 좌우 배치 */
+    align-items: center;
+    margin: auto;
+    border-radius: 10px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+    width: 90%;
+    height: calc(100vh - 100px); /* 배너 높이를 제외한 전체 높이 설정 */
+    overflow-y: auto; /* 내부만 스크롤 가능하게 설정 */
+    padding: 20px;
+}
+
+.theme-image {
+    flex: 1; /* 왼쪽 영역 */
+    text-align: center;
+}
+
+.theme-image img {
+    width: 650px;
+    height: 420px;
+    object-fit: cover;
+    border-radius: 10px;
+}
+
+.write-form {
+    flex: 1; /* 오른쪽 영역 */
+    display: flex;
+    gap: 15px;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.form-title{
+    width: 150%;
+    max-width: 600px;
+    padding: 10px;
+    font-size: 16px;
+    border-radius: 5px;
+    background-color: transparent;
+    border: 1px solid #ccc;
+    color: white;
+}
+
+.file-text {
+    height: 300px;
+    resize: none;
+    width: 150%;
+    max-width: 600px;
+    padding: 10px;
+    font-size: 16px;
+    border-radius: 5px;
+    background-color: transparent;
+    border: 1px solid #ccc;
+    color: white;
+}
+
+.save-button {
+    width: 30%;
+    background-color: rgba(171, 208, 255, 0.7);
+    color: #ffffff;
+    padding: 10px 20px;
+    font-size: 18px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-family: 'SDSamliphopangche_Outline';
+}
+
+.save-button:hover {
+    background-color: rgba(113, 156, 255, 0.8);
+}
+
+.file-select{
+    width: 150%;
+    max-width: 600px;
+    padding: 10px;
+    font-size: 16px;
+    border-radius: 5px;
+    color: rgba(164, 164, 164, 0.6);
+    border: 1px solid #ccc;
+    font-family: 'SDSamliphopangche_Outline';
+}
+.preview-container {
+    margin-top: 10px;
+    display: flex;
+    justify-content: center;
+}
+
+.preview-image, .preview-video {
+    max-width: 400px;
+    max-height: 300px;
+    object-fit: cover;
+    border-radius: 10px;
+}
+.button-group {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    gap: 30px;
+    margin-top: 15px;
+}
+
+input {
+    padding: 10px;
+    font-size: 16px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    width: 250px;
+}
+.field{
+    color: white;
+    font-family: "SDSamliphopangche_Outline";
+}
+.button-group label {
+    white-space: nowrap;
+}
+.button-group input {
+    width: 180px;
+    background-color: transparent;
+    border: 1px solid #ccc;
+    color: #ccc;
+}
+input[type="datetime-local"]::-webkit-calendar-picker-indicator {
+    filter: invert(1);
+}

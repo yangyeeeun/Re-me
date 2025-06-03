@@ -26,6 +26,9 @@ out/
 !**/src/main/**/out/
 !**/src/test/**/out/
 
+# React node_modules
+/src/main/frontend/node_modules
+
 ### NetBeans ###
 /nbproject/private/
 /nbbuild/
