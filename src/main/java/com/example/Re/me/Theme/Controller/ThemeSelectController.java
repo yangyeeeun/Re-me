@@ -23,8 +23,9 @@ public class ThemeSelectController {
         themeSelectService.initializeThemes();
     }
 
+    // ✅ @PathVariable("id")로 수정
     @GetMapping("/api/themes/{id}")
-    public ResponseEntity<ThemeResponseDto> ThemeSelectOne(@PathVariable Long id){
+    public ResponseEntity<ThemeResponseDto> ThemeSelectOne(@PathVariable("id") Long id){
         try {
             ThemeResponseDto theme = themeSelectService.getThemeById(id);
             return ResponseEntity.ok(theme);

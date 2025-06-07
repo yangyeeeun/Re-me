@@ -10,7 +10,8 @@ const ThemeSelectPage = () => {
 
     useEffect(() => {
         // 백엔드에서 테마 목록 가져오기
-        axios.get('/api/themes')
+		// 환경 변수 사용
+		axios.get(`${process.env.REACT_APP_API_BASE_URL}/api/themes`)
             .then(response => {
                 setThemes(response.data);
             })

@@ -85,12 +85,34 @@ public class CapsuleController {
         return ResponseEntity.ok(openedCapsules);
     }
 
+//    @GetMapping("/letters/inbox/new-messages-exist")
+//    public ResponseEntity<Map<String, Boolean>> newMessagesExist(@RequestParam(required = false, defaultValue = "defaultUser") String userId) {
+//        LocalDateTime safeMinDate = LocalDateTime.of(2025, 5, 30, 0, 0);
+//        LocalDateTime lastCheckTime = userLastCheckTimes.getOrDefault(userId, safeMinDate);
+//
+//        // 마지막 확인 시간 이후에 isOpened가 true로 변경된 캡슐이 있는지 확인
+//        List<Capsule> newOpenedCapsules = capsuleRepository.findByIsOpenedTrueAndLastModifiedDateAfter(lastCheckTime);
+//
+//        boolean exists = !newOpenedCapsules.isEmpty();
+//        return ResponseEntity.ok(Map.of("newMessages", exists));
+//    }
+//
+//    @PostMapping("/letters/inbox/mark-as-read")
+//    public ResponseEntity<Void> markNewMessagesAsRead(@RequestParam(required = false, defaultValue = "defaultUser") String userId) {
+//        userLastCheckTimes.put(userId, LocalDateTime.now());
+//        System.out.println("User " + userId + " marked new messages as read at: " + LocalDateTime.now());
+//        return ResponseEntity.ok().build();
+//    }
     @GetMapping("/letters/inbox/new-messages-exist")
-    public ResponseEntity<Map<String, Boolean>> newMessagesExist(@RequestParam(required = false, defaultValue = "defaultUser") String userId) {
+    public ResponseEntity<Map<String, Boolean>> newMessagesExist(
+        @RequestParam(value = "userId", required = false, defaultValue = "defaultUser") String userId
+    ) {
+        // 안전 최소 날짜 (이전 체크 기록 없을 때)
         LocalDateTime safeMinDate = LocalDateTime.of(2025, 5, 30, 0, 0);
+        // 마지막으로 읽음 체크한 시간
         LocalDateTime lastCheckTime = userLastCheckTimes.getOrDefault(userId, safeMinDate);
 
-        // 마지막 확인 시간 이후에 isOpened가 true로 변경된 캡슐이 있는지 확인
+        // 마지막 확인 이후 isOpened=true로 바뀐 캡슐 찾기
         List<Capsule> newOpenedCapsules = capsuleRepository.findByIsOpenedTrueAndLastModifiedDateAfter(lastCheckTime);
 
         boolean exists = !newOpenedCapsules.isEmpty();
@@ -98,9 +120,12 @@ public class CapsuleController {
     }
 
     @PostMapping("/letters/inbox/mark-as-read")
-    public ResponseEntity<Void> markNewMessagesAsRead(@RequestParam(required = false, defaultValue = "defaultUser") String userId) {
+    public ResponseEntity<Void> markNewMessagesAsRead(
+        @RequestParam(value = "userId", required = false, defaultValue = "defaultUser") String userId
+    ) {
         userLastCheckTimes.put(userId, LocalDateTime.now());
         System.out.println("User " + userId + " marked new messages as read at: " + LocalDateTime.now());
         return ResponseEntity.ok().build();
     }
+
 }
