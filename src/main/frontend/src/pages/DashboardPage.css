@@ -1,0 +1,100 @@
+.dashboard-page {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  padding-top: 180px;
+  box-sizing: border-box;
+}
+
+.planet-container {
+  margin: 0 0 50px 0;
+  padding-top: 40px;
+  display: flex;
+  gap: 140px;
+  animation: float 3s ease-in-out infinite;
+  justify-content: center;
+  width: 100%;
+  min-height: 260px;
+}
+
+.planet-image {
+  width: 250px;
+  height: 250px;
+  transition: transform 0.3s;
+}
+
+.planet-image:hover {
+  transform: rotate(15deg) scale(1.1);
+}
+
+.planet-btn {
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  outline: none;
+  /* 버튼 영역을 이미지와 동일하게 */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.planet-btn:focus .planet-image,
+.planet-btn:hover .planet-image {
+  /* 기존 hover 효과와 동일하게 */
+  transform: rotate(15deg) scale(1.1);
+}
+
+/* 버튼 그룹 */
+.button-group {
+  display: flex;
+  gap: 200px;
+  margin-top: 0px;
+    animation: float 3s ease-in-out infinite;
+  
+}
+
+/* 공통 버튼 스타일 */
+.btn-theme, .btn-list {
+  padding: 15px 40px;
+  font-size: 1.2rem;
+  border: none;
+  border-radius: 30px;
+  cursor: pointer;
+  transition: all 0.3s;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+}
+
+/* 개별 버튼 색상 */
+.btn-theme {
+  background: linear-gradient(45deg, #FF6B6B, #FF8E53);
+	font-family: "SDSamliphopangche_Outline";
+  
+  color: white;
+}
+
+.btn-list {
+  background: linear-gradient(45deg, #4ECDC4, #45B7AF);
+  	font-family: "SDSamliphopangche_Outline";
+  
+  color: white;
+}
+
+/* 호버 효과 */
+.btn-theme:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 7px 20px rgba(255,107,107,0.3);
+}
+
+.btn-list:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 7px 20px rgba(78,205,196,0.3);
+}
+
+/* 행성 떠다니는 애니메이션 */
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-20px); }
+}

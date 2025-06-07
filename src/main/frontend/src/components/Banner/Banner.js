@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useState, useCallback} from 'react';
 import { LuPencilLine } from "react-icons/lu";
 import { RiMap2Line } from "react-icons/ri";
 import { TfiEmail } from "react-icons/tfi";
@@ -6,92 +6,91 @@ import { AiOutlineBars } from "react-icons/ai";
 import './Banner.css';
 import {useNavigate} from "react-router-dom";
 import axios from "axios";
+import { useAuth } from '../../context/AuthContext'; // 전역 사용자 정보
+import IconButton from './IconButton'; // 재사용 가능한 아이콘 버튼 컴포넌트
+
 const Banner = () => {
-    const navigate = useNavigate(); // useNavigate 훅 사용
-    const [hasNewMessages, setHasNewMessages] = useState(false);
+  const { user } = useAuth();
+  const navigate = useNavigate();
+  const [hasNewMessages, setHasNewMessages] = useState(false);
 
-    const checkNewMessages = async () => {
-        try {
-            // userId는 실제 로그인 구현 시 동적으로 가져와야 합니다.
-            // 현재는 "defaultUser"로 고정하여 개발 편의성을 높였습니다.
-            const response = await axios.get('/api/letters/inbox/new-messages-exist?userId=defaultUser');
-            setHasNewMessages(response.data.newMessages);
-            console.log("Checked new messages:", response.data.newMessages);
-        } catch (error) {
-            console.error("새 메시지 확인 중 오류 발생:", error);
-            setHasNewMessages(false); // 에러 발생 시 점 표시 안 함
-        }
-    };
+  // useCallback으로 감싸기
+  const checkNewMessages = useCallback(async () => {
+    try {
+      console.log("user.id:", user?.id);
+      const response = await axios.get(
+        `${process.env.REACT_APP_API_BASE_URL}/api/letters/inbox/new-messages-exist?userId=${user.id}`
+      );
+      setHasNewMessages(response.data.newMessages);
+    } catch (error) {
+      console.error("새 메시지 확인 중 오류 발생:", error);
+      setHasNewMessages(false);
+    }
+  }, [user]);
 
-    // ✨ 컴포넌트 마운트 시, 그리고 주기적으로 새로운 메시지 확인 ✨
-    useEffect(() => {
-        checkNewMessages(); // 초기 로드 시 한 번 실행
+  useEffect(() => {
+    if(user) {
+      checkNewMessages();
+      const intervalId = setInterval(checkNewMessages, 30000);
+      return () => clearInterval(intervalId);
+    }
+  }, [user, checkNewMessages]); // ✅ checkNewMessages 추가
 
-        // 30초마다 새로운 메시지 확인 (조절 가능)
-        const intervalId = setInterval(checkNewMessages, 30000);
+  // ✨ 편지함 클릭 핸들러 (읽음 처리 API 호출) ✨
+  const handleInboxClick = async () => {
+    navigate('/inbox');
+    try {
+      await axios.post(
+        `${process.env.REACT_APP_API_BASE_URL}/api/letters/inbox/mark-as-read?userId=${user.id}`
+      );
+      setHasNewMessages(false);
+    } catch (error) {
+      console.error("메시지 읽음 처리 중 오류 발생:", error);
+    }
+  };
 
-        // 컴포넌트 언마운트 시 인터벌 클리어
-        return () => clearInterval(intervalId);
-    }, []);
-
-    const handleInboxClick = async () => {
-        navigate('/inbox'); // /inbox 페이지로 이동
-
-        // ✨ /inbox로 이동 후, 새로운 메시지를 "읽음" 처리 요청 ✨
-        // (사용자가 메시지를 확인했으므로, 다음 번에는 점이 사라지도록)
-        try {
-            await axios.post('/api/letters/inbox/mark-as-read?userId=defaultUser');
-            setHasNewMessages(false); // UI에서도 바로 점 제거
-            console.log("New messages marked as read.");
-        } catch (error) {
-            console.error("메시지 읽음 처리 중 오류 발생:", error);
-        }
-    };
-
-    // 각 아이콘에 대한 클릭 핸들러 함수
-    const handlePencilClick = () => {
-        navigate('/');
-    };
-
-    const handleMapClick = () => {
-        navigate('/map');
-    };
-
-    const handleEmailClick = () => {
-        navigate('/inbox');
-    };
-
-    const handleBarClick = () => {
-        navigate('/list');
-    };
-
-    return(
-        <div className="banner">
-            <div className="banner-inner">
-                <div className="icon-circle">
-                    <span className="icon-text">
-                        <img src="/images/logo/logo.png" alt="logo" className="logo-image"/>
-                        Re:me
-                    </span>
-                </div>
-            </div>
-            <div className="banner-right">
-                <div  className="icon-button icon-pencil" onClick={handlePencilClick}>
-                    <LuPencilLine />
-                </div >
-                <div  className="icon-button icon-map" onClick={handleMapClick}>
-                    <RiMap2Line />
-                </div >
-                <div  className="icon-button icon-email" onClick={handleEmailClick}>
-                    <TfiEmail />
-                    {hasNewMessages && <span className="new-message-dot"></span>}
-                </div >
-                <div  className="icon-button icon-bar" onClick={handleBarClick}>
-                    <AiOutlineBars />
-                </div >
-            </div>
+  return (
+    <div className="banner">
+      <div className="banner-inner">
+        <div className="icon-circle">
+          <span className="icon-text">
+            <img 
+              src="/images/logo/logo.png" 
+              alt="logo" 
+              className="logo-image"
+            />
+            Re:me
+          </span>
         </div>
-    );
+      </div>
+      {/* 로그인된 사용자(user)가 있을 때만 아이콘 영역 렌더링 */}
+      {user && (
+        <div className="banner-right">
+          <IconButton 
+            icon={LuPencilLine} 
+            onClick={() => navigate('/')} 
+            className="icon-pencil"
+          />
+          <IconButton 
+            icon={RiMap2Line} 
+            onClick={() => navigate('/map')} 
+            className="icon-map"
+          />
+          <IconButton 
+            icon={TfiEmail} 
+            onClick={handleInboxClick} 
+            className="icon-email"
+            hasDot={hasNewMessages}
+          />
+          <IconButton 
+            icon={AiOutlineBars} 
+            onClick={() => navigate('/list')} 
+            className="icon-bar"
+          />
+        </div>
+      )}
+    </div>
+  );
 };
 
 export default Banner;

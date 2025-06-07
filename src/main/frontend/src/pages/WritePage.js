@@ -20,8 +20,8 @@ const WritePage = () => {
 
     useEffect(() => {
         console.log("현재 themeId 값:", id);
-        axios.get(`api/themes/${id}`)
-            .then(response => {
+ 			axios.get(`${process.env.REACT_APP_API_BASE_URL}/api/themes/${id}`)
+             .then(response => {
                 setSelectedTheme(response.data);
             })
             .catch(error => {
@@ -90,7 +90,7 @@ const WritePage = () => {
         }
 
         try{
-            const response = await axios.post('/api/letter', formData, {
+            const response = await axios.post(`${process.env.REACT_APP_API_BASE_URL}/api/letter`, formData, {
                 headers: {'Content-Type': 'multipart/form-data'}
             });
 

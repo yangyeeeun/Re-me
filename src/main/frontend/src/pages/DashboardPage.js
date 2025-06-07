@@ -1,36 +1,61 @@
-import React from 'react';
-import { useTheme } from '../context/ThemeContext';
+import React from "react";
+import { useNavigate } from "react-router-dom";
+import Banner from "../components/Banner/Banner";
+import "./DashboardPage.css";
 
-const DashboardPage = () => {
-    const { selectedTheme } = useTheme();
+function DashboardPage() {
+  const navigate = useNavigate();
 
-    return (
-        <div style={{
-            backgroundColor: 'var(--background-color, #ffffff)', // CSS 변수 사용
-            color: 'var(--text-color, #333333)',
-            padding: '20px',
-            minHeight: '100vh',
-            transition: 'background-color 0.3s ease, color 0.3s ease'
-        }}>
-            <h1>대시보드</h1>
-            <p>이 페이지는 선택된 테마에 따라 스타일이 적용됩니다.</p>
-            {selectedTheme ? (
-                <p>현재 적용된 테마: <strong>{selectedTheme.name}</strong></p>
-            ) : (
-                <p>테마가 선택되지 않았습니다.</p>
-            )}
-            <button style={{
-                backgroundColor: 'var(--primary-color, #007bff)',
-                color: 'white',
-                padding: '10px 15px',
-                border: 'none',
-                borderRadius: '5px',
-                cursor: 'pointer'
-            }}>
-                테마 적용 버튼
-            </button>
-        </div>
-    );
-};
+  return (
+    <div className="dashboard-page">
+      {/* 상단 배너 */}
+      <Banner />
+
+      {/* 행성 SVG */}
+      <div className="planet-container">
+        <button
+          className="planet-btn"
+          onClick={() => navigate("/themes")}
+          aria-label="테마 선택으로 이동"
+          style={{ background: "none", border: "none", padding: 0, cursor: "pointer" }}
+        >
+          <img 
+            src="/images/planets/planet1.svg" 
+            alt="Theme Planet" 
+            className="planet-image"
+          />
+        </button>
+        <button
+          className="planet-btn"
+          onClick={() => navigate("/list")}
+          aria-label="캡슐 목록으로 이동"
+          style={{ background: "none", border: "none", padding: 0, cursor: "pointer" }}
+        >
+          <img 
+            src="/images/planets/planet2.svg" 
+            alt="List Planet" 
+            className="planet-image"
+          />
+        </button>
+      </div>
+
+      {/* 액션 버튼 */}
+      <div className="button-group">
+        <button 
+          className="btn-theme"
+          onClick={() => navigate("/themes")}
+        >
+          🎨 테마 선택하기
+        </button>
+        <button 
+          className="btn-list"
+          onClick={() => navigate("/list")}
+        >
+          📦 캡슐 목록보기
+        </button>
+      </div>
+    </div>
+  );
+}
 
 export default DashboardPage;
