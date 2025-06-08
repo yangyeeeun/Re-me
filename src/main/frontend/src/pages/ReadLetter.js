@@ -19,7 +19,8 @@ const ReadLetter = () => {
             try {
                 setLoading(true);
                 setError(null);
-                const response = await axios.get(`${process.env.REACT_APP_API_BASE_URL}/api/letter/${id}`);
+
+                const response = await axios.get(`${process.env.REACT_APP_API_BASE_URL}/api/letter/${id}`); // 환경 변수 사용
 
                 // ✨ isOpened 값을 별도로 추출 ✨
                 const { isOpened: initialIsOpened, ...dataToShow } = response.data;

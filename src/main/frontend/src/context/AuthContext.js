@@ -10,14 +10,7 @@ export const AuthProvider = ({ children }) => {
   useEffect(() => {
     axios.get(`${process.env.REACT_APP_API_BASE_URL}/user`, { withCredentials: true })
       .then(res => setUser(res.data))
-      .catch((error) => {
-        if (error.response?.status === 401) {
-          // 401(Unauthorized)면 로그인 페이지로 이동
-          window.location.href = "/login"; 
-        } else {
-          setUser(null);
-        }
-      });
+	  .catch(()=> setUser(null));
   }, []);
 
   // 2. 카카오 로그인 요청 함수 (fetch/axios 사용 X, 리다이렉트만)
