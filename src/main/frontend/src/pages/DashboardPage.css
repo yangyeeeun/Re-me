@@ -10,9 +10,9 @@
 
 .planet-container {
   margin: 0 0 50px 0;
-  padding-top: 40px;
+  padding-top: 140px;
   display: flex;
-  gap: 140px;
+  gap: 220px;
   animation: float 3s ease-in-out infinite;
   justify-content: center;
   width: 100%;
@@ -50,7 +50,7 @@
 /* 버튼 그룹 */
 .button-group {
   display: flex;
-  gap: 200px;
+  gap: 260px;
   margin-top: 0px;
     animation: float 3s ease-in-out infinite;
   

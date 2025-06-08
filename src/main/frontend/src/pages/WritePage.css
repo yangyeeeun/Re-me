@@ -94,7 +94,7 @@
     object-fit: cover;
     border-radius: 10px;
 }
-.button-group {
+.info-button-group {
     display: flex;
     flex-direction: row;
     align-items: center;
@@ -114,10 +114,10 @@ input {
     color: white;
     font-family: "SDSamliphopangche_Outline";
 }
-.button-group label {
+.info-button-group label {
     white-space: nowrap;
 }
-.button-group input {
+.info-button-group input {
     width: 180px;
     background-color: transparent;
     border: 1px solid #ccc;

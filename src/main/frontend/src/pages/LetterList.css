@@ -119,7 +119,7 @@
 }
 
 .capsule-location-info {
-    margin-top: 0px; /* 이미지와 위치 텍스트 간 간격 */
+    margin-top: -50px; /* 이미지와 위치 텍스트 간 간격 */
 }
 
 .location-text {

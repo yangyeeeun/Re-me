@@ -8,6 +8,7 @@ import {useNavigate} from "react-router-dom";
 import axios from "axios";
 import { useAuth } from '../../context/AuthContext'; // 전역 사용자 정보
 import IconButton from './IconButton'; // 재사용 가능한 아이콘 버튼 컴포넌트
+import { Link } from "react-router-dom";
 
 const Banner = () => {
   const { user } = useAuth();
@@ -52,23 +53,23 @@ const Banner = () => {
   return (
     <div className="banner">
       <div className="banner-inner">
-        <div className="icon-circle">
+        <Link to="/" className="icon-circle" style={{ textDecoration: "none", color: "inherit" }}>
           <span className="icon-text">
-            <img 
-              src="/images/logo/logo.png" 
-              alt="logo" 
-              className="logo-image"
+            <img
+                src="/images/logo/logo.png"
+                alt="logo"
+                className="logo-image"
             />
             Re:me
           </span>
-        </div>
+        </Link>
       </div>
       {/* 로그인된 사용자(user)가 있을 때만 아이콘 영역 렌더링 */}
       {user && (
         <div className="banner-right">
           <IconButton 
             icon={LuPencilLine} 
-            onClick={() => navigate('/')} 
+            onClick={() => navigate('/themes')}
             className="icon-pencil"
           />
           <IconButton 

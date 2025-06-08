@@ -20,7 +20,9 @@ const WritePage = () => {
 
     useEffect(() => {
         console.log("현재 themeId 값:", id);
- 			axios.get(`${process.env.REACT_APP_API_BASE_URL}/api/themes/${id}`)
+ 			axios.get(`${process.env.REACT_APP_API_BASE_URL}/api/themes/${id}`, {
+                withCredentials: true //쿠키 포함 필수!
+            })
              .then(response => {
                 setSelectedTheme(response.data);
             })
@@ -111,7 +113,7 @@ const WritePage = () => {
                 {/* 선택한 테마의 이미지 */}
                 <div className="theme-image">
                     {selectedTheme && <img src={selectedTheme.imageUrl} alt={selectedTheme.name} />}
-                    <div className="button-group">
+                    <div className="info-button-group">
                         <label className="field">📍 위치 정보 입력:</label>
                         <input type="text" placeholder="위치를 입력하세요" value={locationName} onChange={handleLocationChange} />
 

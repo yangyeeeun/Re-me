@@ -25,14 +25,5 @@ public class Location {
 
     @Column(name = "name")
     private String name;
-    
-    // 추가 필드
-//    private String address; // 주소
-    private LocalDateTime createdAt; // 작성일
-
-    // 작성자와의 연관관계
-    @ManyToOne
-    @JoinColumn(name = "user_id")
-    private User user;
 
 }
