@@ -42,7 +42,7 @@ const ThemeSelectPage = () => {
                 {/* 왼쪽 큰 이미지 */}
                 <div className="left-panel">
                     {selectedTheme ? (
-                        <img src={selectedTheme.imageUrl} alt={selectedTheme.name} />
+                        <img src={`http://localhost:8080${selectedTheme.imageUrl}`} alt={selectedTheme.name} />
                     ) : (
                         <p className="theme-color">테마를 선택하세요!</p>
                     )}
@@ -53,7 +53,7 @@ const ThemeSelectPage = () => {
                     <div className="theme-list">
                         {themes.map((theme, index) => (
                             <div key={theme.id} className="theme-item" onClick={() => handleThemeClick(theme)}>
-                                <img src={theme.imageUrl} alt={theme.name} />
+                                <img src={`http://localhost:8080${theme.imageUrl}`} alt={theme.name} />
                                 <p className="theme-name">{`테마 ` + theme.name}</p>
                             </div>
                         ))}

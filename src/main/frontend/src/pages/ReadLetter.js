@@ -19,7 +19,7 @@ const ReadLetter = () => {
             try {
                 setLoading(true);
                 setError(null);
-                const response = await axios.get(`/api/letter/${id}`);
+                const response = await axios.get(`${process.env.REACT_APP_API_BASE_URL}/api/letter/${id}`);
 
                 // ✨ isOpened 값을 별도로 추출 ✨
                 const { isOpened: initialIsOpened, ...dataToShow } = response.data;
@@ -33,7 +33,7 @@ const ReadLetter = () => {
                     console.log(`Capsule ID ${id} is past its open date and not opened. Sending update request.`);
                     try {
                         // 백엔드에 isOpened를 true로 업데이트 요청
-                        await axios.put(`/api/letter/${id}/open`);
+                        await axios.put(`${process.env.REACT_APP_API_BASE_URL}/api/letter/${id}/open`);
                         // 상태를 직접 업데이트하여 UI에 즉시 반영 (다시 전체 데이터를 불러올 필요 없이)
                         setLetter(prevLetter => ({ ...prevLetter, isOpened: true }));
                         console.log(`Capsule ID ${id} successfully marked as opened.`);
@@ -59,15 +59,15 @@ const ReadLetter = () => {
     // 테마 ID에 따른 이미지 경로 매핑 (LetterList와 동일)
     const getThemeImage = (themeId) => {
         switch (themeId) {
-            case 1: return '/images/themes/happy.png';
-            case 2: return '/images/themes/surprise.png';
-            case 3: return '/images/themes/sad.png';
-            case 4: return '/images/themes/enjoy.png';
-            case 5: return '/images/themes/shiver.png';
-            case 6: return '/images/themes/calm.png';
-            case 7: return '/images/themes/nervous.png';
-            case 8: return '/images/themes/upset.png';
-            default: return '/images/elements/ufo.png'; // 기본 테마 이미지
+            case 1: return 'http://localhost:8080/images/themes/happy.png';
+            case 2: return 'http://localhost:8080/images/themes/surprise.png';
+            case 3: return 'http://localhost:8080/images/themes/sad.png';
+            case 4: return 'http://localhost:8080/images/themes/enjoy.png';
+            case 5: return 'http://localhost:8080/images/themes/shiver.png';
+            case 6: return 'http://localhost:8080/images/themes/calm.png';
+            case 7: return 'http://localhost:8080/images/themes/nervous.png';
+            case 8: return 'http://localhost:8080/images/themes/upset.png';
+            default: return 'http://localhost:8080/images/elements/ufo.png'; // 기본 테마 이미지
         }
     };
 
@@ -132,9 +132,9 @@ const ReadLetter = () => {
                     {letter.media && (
                         <div className="media-display-container"> {/* preview-container 대신 media-display-container */}
                             {letter.media.endsWith('.png') || letter.media.endsWith('.jpg') || letter.media.endsWith('.jpeg') || letter.media.endsWith('.gif') ? (
-                                <img src={letter.media} alt="첨부 미디어" className="display-media-image" />
+                                <img src={`http://localhost:8080${letter.media}`} alt="첨부 미디어" className="display-media-image" />
                             ) : (
-                                <video src={letter.media} controls className="display-media-video" />
+                                <video src={`http://localhost:8080${letter.media}`} controls className="display-media-video" />
                             )}
                         </div>
                     )}

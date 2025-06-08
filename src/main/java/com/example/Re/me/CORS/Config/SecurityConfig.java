@@ -21,6 +21,7 @@ public class SecurityConfig {
 	            .requestMatchers(
 	                "/",
 	                "/login/**",
+					"/user",
 	                "/oauth2/**",
 					"/api/**",
 	                "/manifest.json", // ✅ manifest.json 허용
@@ -31,7 +32,7 @@ public class SecurityConfig {
 	            .anyRequest().authenticated()
 	        )
 	        .oauth2Login(oauth2 -> oauth2
-	            .defaultSuccessUrl("/dashboard", true)
+	            .defaultSuccessUrl("http://localhost:3000/dashboard", true)
 	        );
 	    return http.build();
 	}

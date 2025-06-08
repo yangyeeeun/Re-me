@@ -10,7 +10,7 @@ const ThemeSelectPage = () => {
     useEffect(() => {
         const fetchThemes = async () => {
             try {
-                const response = await fetch('/api/themes'); // 백엔드 API 호출
+                const response = await fetch(`${process.env.REACT_APP_API_BASE_URL}/api/themes`); // 백엔드 API 호출
                 if (!response.ok) {
                     throw new Error('Failed to fetch themes');
                 }

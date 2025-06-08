@@ -112,7 +112,7 @@ const WritePage = () => {
             <div className="write-container">
                 {/* 선택한 테마의 이미지 */}
                 <div className="theme-image">
-                    {selectedTheme && <img src={selectedTheme.imageUrl} alt={selectedTheme.name} />}
+                    {selectedTheme && <img src={`http://localhost:8080${selectedTheme.imageUrl}`} alt={selectedTheme.name} />}
                     <div className="info-button-group">
                         <label className="field">📍 위치 정보 입력:</label>
                         <input type="text" placeholder="위치를 입력하세요" value={locationName} onChange={handleLocationChange} />

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Map, MapMarker, CustomOverlayMap } from "react-kakao-maps-sdk";
+import { Map, MapMarker, CustomOverlayMap} from "react-kakao-maps-sdk";
 import axios from "axios";
 import Banner from "../components/Banner/Banner";
 import "./LocationMapPage.css";
@@ -12,7 +12,25 @@ function LocationMapPage() {
 		lng: 126.9780,
 	});
 
-	// 위치 데이터 불러오기
+    useEffect(() => {
+        // 이미 로드된 경우 중복 로딩 방지
+        if (window.kakao && window.kakao.maps) return;
+
+        const script = document.createElement("script");
+        script.src = `https://dapi.kakao.com/v2/maps/sdk.js?appkey=${process.env.REACT_APP_KAKAO_MAP_KEY}&autoload=false&libraries=services,clusterer`;
+        script.async = true;
+        script.onload = () => {
+            // SDK가 로드되면 kakao.maps를 사용할 수 있게 초기화
+            window.kakao.maps.load(() => {
+                console.log("Kakao Maps SDK loaded");
+            });
+        };
+
+        document.head.appendChild(script);
+    }, []);
+
+
+    // 위치 데이터 불러오기
 	useEffect(() => {
 		const fetchLocations = async () => {
 			try {
@@ -49,6 +67,7 @@ function LocationMapPage() {
 						center={mapCenter}
 						style={{ width: "100%", height: "500px", borderRadius: "20px" }}
 						level={3}
+						autoload={false}
 					>
 						{/* 모든 위치에 마커 표시 */}
 						{locations.map((location) => (

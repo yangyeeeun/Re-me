@@ -20,7 +20,7 @@ const MessagePage = () => {
                 setLoading(true);
                 setError(null);
                 // 백엔드의 /api/letters/inbox 엔드포인트 호출
-                const response = await axios.get('/api/letters/inbox');
+                const response = await axios.get(`${process.env.REACT_APP_API_BASE_URL}/api/letters/inbox`);
                 setOpenedCapsules(response.data);
             } catch (err) {
                 console.error("열린 캡슐 목록을 불러오는 중 오류 발생:", err);
@@ -39,15 +39,15 @@ const MessagePage = () => {
 
     const getThemeImage = (themeId) => {
         switch (themeId) {
-            case 1: return '/images/themes/happy.png';
-            case 2: return '/images/themes/surprise.png';
-            case 3: return '/images/themes/sad.png';
-            case 4: return '/images/themes/enjoy.png';
-            case 5: return '/images/themes/shiver.png';
-            case 6: return '/images/themes/calm.png';
-            case 7: return '/images/themes/nervous.png';
-            case 8: return '/images/themes/upset.png';
-            default: return '/images/elements/ufo.png';
+            case 1: return 'http://localhost:8080/images/themes/happy.png';
+            case 2: return 'http://localhost:8080/images/themes/surprise.png';
+            case 3: return 'http://localhost:8080/images/themes/sad.png';
+            case 4: return 'http://localhost:8080/images/themes/enjoy.png';
+            case 5: return 'http://localhost:8080/images/themes/shiver.png';
+            case 6: return 'http://localhost:8080/images/themes/calm.png';
+            case 7: return 'http://localhost:8080/images/themes/nervous.png';
+            case 8: return 'http://localhost:8080/images/themes/upset.png';
+            default: return 'http://localhost:8080/images/elements/ufo.png';
         }
     };
 

@@ -10,7 +10,7 @@ function HomePage() {
 
   // ✨ 로그인 상태에 따라 자동 리다이렉트 (선택 사항)
   useEffect(() => {
-    if (user) {
+    if (user && user.kakao_account) {
       navigate("/dashboard"); // 로그인 시 이동할 페이지 (예: 대시보드)
     }
   }, [user, navigate]);
@@ -37,20 +37,20 @@ function HomePage() {
       <img src="/images/logo/logo.png" alt="Re:me 로고" className="logo" />
 
       {/* 로그인 상태에 따른 UI */}
-      {!user ? (
-        <div className="login-section">
-          <button onClick={handleKakaoLogin} className="kakao-login-btn">
-            <img
-              src="https://developers.kakao.com/tool/resource/static/img/button/login/full/ko/kakao_login_medium_narrow.png"
-              alt="카카오 로그인"
-            />
-          </button>
-        </div>
+      {user && user.kakao_account ? (
+          <div className="welcome-section">
+            <h1>환영합니다, {user.kakao_account.profile.nickname}님!</h1>
+            <p>Re:me와 함께 추억을 남겨보세요.</p>
+          </div>
       ) : (
-        <div className="welcome-section">
-          <h1>환영합니다, {user.kakao_account.profile.nickname}님!</h1>
-          <p>Re:me와 함께 추억을 남겨보세요.</p>
-        </div>
+          <div className="login-section">
+            <button onClick={handleKakaoLogin} className="kakao-login-btn">
+              <img
+                  src="https://developers.kakao.com/tool/resource/static/img/button/login/full/ko/kakao_login_medium_narrow.png"
+                  alt="카카오 로그인"
+              />
+            </button>
+          </div>
       )}
     </div>
   );

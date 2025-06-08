@@ -30,39 +30,38 @@ const LetterList = () => {
         }
 
         const wrapperWidth = gridWrapperRef.current.offsetWidth;
-        const maxItemsPerRow = Math.floor(wrapperWidth / EFFECTIVE_ITEM_WIDTH) || 1;
+        const maxItemsPerRow = 5;
 
         const positions = [];
         let previousLeft;
         capsules.forEach((capsule, index) => {
-            const row = Math.floor(index / maxItemsPerRow);
-            const indexInRow = index % 5;
-
+            let row = Math.floor(index / maxItemsPerRow);
+            if(index%5==4 && index >8){
+                row = Math.floor((index+1) / maxItemsPerRow) + 1;
+            }
+            let indexInRow = index % 5;
+            if(index%8==1 && index != 1){
+                indexInRow = 3;
+            }else if(index%4==1){
+                indexInRow = 1;
+            }else if(index > 5){
+                indexInRow = index % 5 + 1;
+            }
             const isEvenRow = row % 2 === 1; // 왼쪽 진행 줄
-            const capsulesInThisRow = Math.min(capsules.length - row * maxItemsPerRow, maxItemsPerRow);
-            const totalRowWidth = capsulesInThisRow * EFFECTIVE_ITEM_WIDTH;
-            const baseLeft = (wrapperWidth - totalRowWidth) / 2;
-
             let left, top;
             const topOfRightMost = row * (ITEM_HEIGHT + VERTICAL_SPACING_BETWEEN_ROWS);
             const topOfMost = index * VERTICAL_SPACING_BETWEEN_ROWS;
             if (isEvenRow) {
-                // 기준: 오른쪽 캡슐의 top 값
-                const descendingIndex = indexInRow - capsulesInThisRow;
-                if(indexInRow === 0){
-                    left = previousLeft - (indexInRow + 1) * EFFECTIVE_ITEM_WIDTH;
-                }else{
-                    left = previousLeft - indexInRow * EFFECTIVE_ITEM_WIDTH;
-                }
+                const reversedIndexInRow = maxItemsPerRow - 1 - indexInRow;
+                left = reversedIndexInRow * EFFECTIVE_ITEM_WIDTH;
                 top = topOfMost;
 
             } else {
-                left = baseLeft + indexInRow * EFFECTIVE_ITEM_WIDTH;
+                left = indexInRow * EFFECTIVE_ITEM_WIDTH;
                 top = topOfRightMost + indexInRow * VERTICAL_OFFSET_PER_ITEM_IN_ROW;
             }
 
             positions.push({ left, top });
-            previousLeft = left;
         });
 
 
@@ -76,7 +75,7 @@ const LetterList = () => {
     useEffect(() => {
         const fetchCapsules = async () => {
             try {
-                const response = await axios.get('/api/letters'); // GET 요청
+                const response = await axios.get(`${process.env.REACT_APP_API_BASE_URL}/api/letters`); // GET 요청
                 setCapsules(response.data);
             } catch (err) {
                 console.error("캡슐 데이터를 불러오는 중 오류 발생:", err);
@@ -130,15 +129,15 @@ const LetterList = () => {
 
     const getThemeImage = (themeId) => {
         switch (themeId) {
-            case 1: return '/images/themes/happy.png';
-            case 2: return '/images/themes/surprise.png';
-            case 3: return '/images/themes/sad.png';
-            case 4: return '/images/themes/enjoy.png';
-            case 5: return '/images/themes/shiver.png';
-            case 6: return '/images/themes/calm.png';
-            case 7: return '/images/themes/nervous.png';
-            case 8: return '/images/themes/upset.png';
-            default: return '/images/elements/ufo.png';
+            case 1: return 'http://localhost:8080/images/themes/happy.png';
+            case 2: return 'http://localhost:8080/images/themes/surprise.png';
+            case 3: return 'http://localhost:8080/images/themes/sad.png';
+            case 4: return 'http://localhost:8080/images/themes/enjoy.png';
+            case 5: return 'http://localhost:8080/images/themes/shiver.png';
+            case 6: return 'http://localhost:8080/images/themes/calm.png';
+            case 7: return 'http://localhost:8080/images/themes/nervous.png';
+            case 8: return 'http://localhost:8080/images/themes/upset.png';
+            default: return 'http://localhost:8080/images/elements/ufo.png';
         }
     };
     const getLockIcon = () => '/images/icon/lock_icon.png';
