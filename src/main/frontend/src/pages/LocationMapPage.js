@@ -1,10 +1,12 @@
 import React, { useEffect, useState } from "react";
-import { Map, MapMarker, CustomOverlayMap} from "react-kakao-maps-sdk";
+import { Map, MapMarker, CustomOverlayMap } from "react-kakao-maps-sdk";
 import axios from "axios";
 import Banner from "../components/Banner/Banner";
 import "./LocationMapPage.css";
+import { useNavigate } from "react-router-dom";
 
 function LocationMapPage() {
+	const navigate = useNavigate()
 	const [locations, setLocations] = useState([]); // DB에서 받아온 위치 데이터
 	const [selectedLocation, setSelectedLocation] = useState(null); // 선택된 마커 정보
 	const [mapCenter, setMapCenter] = useState({ // 지도 초기 중심 좌표
@@ -12,25 +14,25 @@ function LocationMapPage() {
 		lng: 126.9780,
 	});
 
-    useEffect(() => {
-        // 이미 로드된 경우 중복 로딩 방지
-        if (window.kakao && window.kakao.maps) return;
+	useEffect(() => {
+		// 이미 로드된 경우 중복 로딩 방지
+		if (window.kakao && window.kakao.maps) return;
 
-        const script = document.createElement("script");
-        script.src = `https://dapi.kakao.com/v2/maps/sdk.js?appkey=${process.env.REACT_APP_KAKAO_MAP_KEY}&autoload=false&libraries=services,clusterer`;
-        script.async = true;
-        script.onload = () => {
-            // SDK가 로드되면 kakao.maps를 사용할 수 있게 초기화
-            window.kakao.maps.load(() => {
-                console.log("Kakao Maps SDK loaded");
-            });
-        };
+		const script = document.createElement("script");
+		script.src = `https://dapi.kakao.com/v2/maps/sdk.js?appkey=${process.env.REACT_APP_KAKAO_MAP_KEY}&autoload=false&libraries=services,clusterer`;
+		script.async = true;
+		script.onload = () => {
+			// SDK가 로드되면 kakao.maps를 사용할 수 있게 초기화
+			window.kakao.maps.load(() => {
+				console.log("Kakao Maps SDK loaded");
+			});
+		};
 
-        document.head.appendChild(script);
-    }, []);
+		document.head.appendChild(script);
+	}, []);
 
 
-    // 위치 데이터 불러오기
+	// 위치 데이터 불러오기
 	useEffect(() => {
 		const fetchLocations = async () => {
 			try {
@@ -56,70 +58,82 @@ function LocationMapPage() {
 	}, []);
 
 	return (
-		<div className="location-map-page">
+		<div className="app-container">
 			<Banner />
-			<div className="map-section">
-				<h2 className="map-title">🌍 모든 편지 위치 보기</h2>
-				<div className="map-container">
-					{/* 지도 영역 */}
-					<div className="map-area">
-						<Map
-							center={mapCenter}
-							style={{ width: "100%", height: "500px", borderRadius: "20px" }}
-							level={3}
-						>
-							{locations.map((location) => (
-								<MapMarker
-									key={location.id}
-									position={{ lat: location.latitude, lng: location.longitude }}
-									onClick={() => setSelectedLocation(location)}
-									image={{
-										src: "https://cdn-icons-png.flaticon.com/512/684/684908.png",
-										size: { width: 40, height: 40 },
-									}}
-								/>
-							))}
-							{selectedLocation && (
-								<CustomOverlayMap
-									position={{
-										lat: selectedLocation.latitude,
-										lng: selectedLocation.longitude,
-									}}
-									yAnchor={2.5}
-								>
-									<div className="location-info-window">
-										<h3>{selectedLocation.name}</h3>
-										<p>
-											위도: {selectedLocation.latitude.toFixed(5)}
-											<br />
-											경도: {selectedLocation.longitude.toFixed(5)}
-										</p>
-										<button
-											className="close-btn"
-											onClick={() => setSelectedLocation(null)}
-										>
-											×
-										</button>
-									</div>
-								</CustomOverlayMap>
-							)}
-						</Map>
-					</div>
-					{/* 카드 리스트 영역 */}
-					<div className="location-card-list">
-						{locations.map((location) => (
-							<div
-								key={location.id}
-								className="location-card"
-								onClick={() => setSelectedLocation(location)}
+			<div className="location-map-page">
+				<div className="map-section">
+					<h2 className="map-title">🌍 모든 편지 위치 보기</h2>
+					<div className="map-container">
+						{/* 지도 영역 */}
+						<div className="map-area">
+							<Map
+								center={mapCenter}
+								style={{ width: "100%", height: "500px", borderRadius: "20px" }}
+								level={3}
 							>
-								<h4>{location.name}</h4>
-								<div className="coordinates">
-									<span>📍</span>
-									{location.latitude.toFixed(5)}, {location.longitude.toFixed(5)}
+								{locations.map((location) => (
+									<MapMarker
+										key={location.id}
+										position={{ lat: location.latitude, lng: location.longitude }}
+										onClick={() => {
+											if (window.confirm(`${location.name} 캡슐을 열람하시겠습니까?`)) {
+												navigate(`/capsule/${location.id}`);
+											}
+										}}
+										image={{
+											src: "https://cdn-icons-png.flaticon.com/512/684/684908.png",
+											size: { width: 40, height: 40 },
+										}}
+									/>
+								))}
+								{selectedLocation && (
+									<CustomOverlayMap
+										position={{
+											lat: selectedLocation.latitude,
+											lng: selectedLocation.longitude,
+										}}
+										yAnchor={2.5}
+									>
+										<div className="location-info-window">
+											<h3>{selectedLocation.name}</h3>
+											<p>
+												위도: {selectedLocation.latitude.toFixed(5)}
+												<br />
+												경도: {selectedLocation.longitude.toFixed(5)}
+											</p>
+											<button
+												className="close-btn"
+												onClick={() => setSelectedLocation(null)}
+											>
+												×
+											</button>
+										</div>
+									</CustomOverlayMap>
+								)}
+							</Map>
+						</div>
+						{/* 카드 리스트 영역 */}
+						<div className="location-card-list">
+							{locations.map((location) => (
+								<div
+									key={location.id}
+									className="location-card"
+									onClick={() => {
+										setMapCenter({
+											lat: location.latitude,
+											lng: location.longitude,
+										});
+										setSelectedLocation(location);
+									}}
+								>
+									<h4>{location.name}</h4>
+									<div className="coordinates">
+										<span>📍</span>
+										{location.latitude.toFixed(5)}, {location.longitude.toFixed(5)}
+									</div>
 								</div>
-							</div>
-						))}
+							))}
+						</div>
 					</div>
 				</div>
 			</div>
