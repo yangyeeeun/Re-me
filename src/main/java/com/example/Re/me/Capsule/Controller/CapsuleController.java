@@ -58,13 +58,13 @@ public class CapsuleController {
     }
 
     @GetMapping("/letter/{id}")
-    public CapsuleResponseDto getMyCapsule(@PathVariable Long id){
+    public CapsuleResponseDto getMyCapsule(@PathVariable("id") Long id) { 
         return capsuleService.getCapsule(id);
     }
 
     @PutMapping("/letter/{id}/open") // 또는 PATCH를 사용해도 됩니다. (PUT /api/letters/{id}/open)
     @Transactional // 트랜잭션 처리
-    public ResponseEntity<Void> markCapsuleAsOpened(@PathVariable Long id) {
+    public ResponseEntity<Void> markCapsuleAsOpened(@PathVariable("id") Long id) {
         return capsuleRepository.findById(id)
                 .map(capsule -> {
                     if (!capsule.getIsOpened()) { // 이미 열리지 않은 상태일 때만 업데이트

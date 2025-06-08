@@ -19,7 +19,7 @@ const ReadLetter = () => {
             try {
                 setLoading(true);
                 setError(null);
-                const response = await axios.get(`/api/letter/${id}`);
+                const response = await axios.get(`${process.env.REACT_APP_API_BASE_URL}/api/letter/${id}`); // 환경 변수 사용
 
                 // ✨ isOpened 값을 별도로 추출 ✨
                 const { isOpened: initialIsOpened, ...dataToShow } = response.data;
@@ -33,7 +33,7 @@ const ReadLetter = () => {
                     console.log(`Capsule ID ${id} is past its open date and not opened. Sending update request.`);
                     try {
                         // 백엔드에 isOpened를 true로 업데이트 요청
-                        await axios.put(`/api/letter/${id}/open`);
+                        await axios.put(`${process.env.REACT_APP_API_BASE_URL}/api/letter/${id}/open`);
                         // 상태를 직접 업데이트하여 UI에 즉시 반영 (다시 전체 데이터를 불러올 필요 없이)
                         setLetter(prevLetter => ({ ...prevLetter, isOpened: true }));
                         console.log(`Capsule ID ${id} successfully marked as opened.`);
