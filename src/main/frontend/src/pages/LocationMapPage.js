@@ -17,7 +17,7 @@ function LocationMapPage() {
 		const fetchLocations = async () => {
 			try {
 				const response = await axios.get(
-					`${process.env.REACT_APP_API_BASE_URL}/api/map`
+					`${process.env.REACT_APP_API_BASE_URL}/api/locations`
 				);
 				setLocations(response.data);
 

@@ -22,6 +22,7 @@ public class SecurityConfig {
 	                "/",
 	                "/login/**",
 	                "/oauth2/**",
+					"/api/**",
 	                "/manifest.json", // ✅ manifest.json 허용
 	                "/favicon.ico", // favicon 허용
 	                "/static/**", // 정적 파일 허용
