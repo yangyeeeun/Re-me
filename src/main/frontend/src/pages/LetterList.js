@@ -36,15 +36,21 @@ const LetterList = () => {
         let previousLeft;
         capsules.forEach((capsule, index) => {
             let row = Math.floor(index / maxItemsPerRow);
-            if(index%5==4 && index >8){
+            if(index%5===4 && index >8){
                 row = Math.floor((index+1) / maxItemsPerRow) + 1;
+            }else if(index > 8){
+                row = Math.floor(index / maxItemsPerRow) + 1;
             }
             let indexInRow = index % 5;
-            if(index%8==1 && index != 1){
+            if(index%8===1 && index !== 1){
                 indexInRow = 3;
-            }else if(index%4==1){
+            }else if(index%4===1){
                 indexInRow = 1;
-            }else if(index > 5){
+            }else if(index%5===0){
+                indexInRow = index / 5;
+            }else if(index > 4 && index % 4 === 0 && index % 8 !== 0){
+                indexInRow = 0;
+            }else if(index > 5 && index % 10 !== 1){
                 indexInRow = index % 5 + 1;
             }
             const isEvenRow = row % 2 === 1; // 왼쪽 진행 줄
