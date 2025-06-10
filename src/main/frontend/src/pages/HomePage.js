@@ -25,7 +25,7 @@ function HomePage() {
     console.log("KAKAO_REDIRECT_URI:", KAKAO_REDIRECT_URI);
 
     const kakaoAuthUrl = `https://kauth.kakao.com/oauth/authorize?response_type=code&client_id=${KAKAO_REST_API_KEY}&redirect_uri=${KAKAO_REDIRECT_URI}`;
-    window.location.href = kakaoAuthUrl;
+    window.location.href = "http://localhost:8080/oauth2/authorization/kakao";
   };
 
   return (
