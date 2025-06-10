@@ -3,10 +3,12 @@ package com.example.Re.me.User.Entity;
 import jakarta.persistence.*;
 import lombok.*;
 import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.time.LocalDateTime;
 
 @Entity
+@EntityListeners(AuditingEntityListener.class)
 @Getter
 @Setter
 @Builder
@@ -18,35 +20,26 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private  Long id;
 
-    @Column(name = "kakaoId")
+    @Column(name = "kakao_id", unique = true, nullable = false)
     private Long kakaoId;
 
     @Column(name = "nickname")
     private String nickname;
 
-    @Column(name = "profileImage")
+    @Column(name = "profile_image")
     private String profileImage;
 
-    @Column(name = "email")
+    @Column(name = "email", unique = true)
     private String email;
 
-    @Column(name = "provider")
+    @Column(name = "provider", nullable = false)
     private String provider;
 
-    @Column(name = "role")
+    @Column(name = "role", nullable = false)
     private String role;
 
     @CreatedDate
-    @Column(name = "createdAt")
+    @Column(name = "created_at", updatable = false)
     private LocalDateTime createdAt;
 
-    @Builder
-    public User(Long kakaoId, String nickname, String profileImage, String email, String provider, String role) {
-        this.kakaoId = kakaoId;
-        this.nickname = nickname;
-        this.profileImage = profileImage;
-        this.email = email;
-        this.provider = provider;
-        this.role = role;
-    }
 }
