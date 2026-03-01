@@ -15,7 +15,9 @@ import java.time.LocalDateTime;
 @Getter
 @Setter
 @EntityListeners(AuditingEntityListener.class)
-@Table(name = "capsule")
+@Table(name = "capsule", indexes = {
+    @Index(name = "idx_opened_date", columnList = "isOpened, openDate")
+})
 public class Capsule {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
