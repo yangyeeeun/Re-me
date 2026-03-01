@@ -17,7 +17,8 @@ const WritePage = () => {
     const navigate = useNavigate();
     const [latitude, setLatitude] = useState(null);
     const [longitude, setLongitude] = useState(null);
-
+    const [isUploading, setIsUploading] = useState(false);
+    
     useEffect(() => {
         console.log("현재 themeId 값:", id);
  			axios.get(`${process.env.REACT_APP_API_BASE_URL}/api/themes/${id}`, {
@@ -100,10 +101,12 @@ const WritePage = () => {
                 setPreviewUrl(`/${response.data.media}`);
             }
 
-            alert('글이 저장되었습니다!');
+            alert('캡슐이 안전하게 봉인되었습니다!');
             navigate(`/list`);
         }catch(error){
             console.error('타임캡슐 저장 중 오류 발생:',error);
+        }finally {
+            setIsUploading(false);
         }
     };
     return(
@@ -148,7 +151,10 @@ const WritePage = () => {
                         value={content}
                         onChange={(e) => setContent(e.target.value)}
                     />
-                    <button className='save-button' onClick={handleSubmit}>저장하기</button>
+                    {isUploading && <div className="spinner">봉인 중...</div>}
+                    <button className='save-button' onClick={handleSubmit} disabled={isUploading}>
+                        {isUploading ? "전송 중..." : "저장하기"}
+                    </button>
                 </div>
             </div>
         </div>
